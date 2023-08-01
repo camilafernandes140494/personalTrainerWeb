@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { t } = useTranslation();
@@ -20,7 +19,7 @@ function Login() {
     event.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        navigate("/home");
+        navigate("/Home");
       })
       .catch((error) => {
         // Tratar erro de login
@@ -42,7 +41,8 @@ function Login() {
         style={{
           borderRadius: "10%",
           backgroundColor: "rgba(217, 217, 217, 0.4)",
-        }}>
+        }}
+      >
         <form onSubmit={handleLogin} style={{ margin: "5%" }}>
           <Box textAlign="center" py={4}>
             <Typography variant="h4" component="div" style={estiloTexto}>
@@ -67,7 +67,10 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-              <CustomButton label={t("button.enter")} type="submit"></CustomButton>
+            <CustomButton
+              label={t("button.enter")}
+              type="submit"
+            ></CustomButton>
           </Stack>
         </form>
       </div>
@@ -75,7 +78,8 @@ function Login() {
         display="flex"
         justifyContent="center"
         alignContent="center"
-        margin="1%">
+        margin="1%"
+      >
         <SettingsOutlined sx={{ color: "#78A55A" }} />
         <Typography component="div" style={{ color: "#78A55A" }}>
           {t("byCamila")}

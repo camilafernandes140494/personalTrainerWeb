@@ -9,6 +9,9 @@
   "button":{
     "enter": "Entrar"
   },
+  "color":{
+    "blue":"Azul"
+  },
   "nav":{
     "home":"Inicio",
     "training":"Treinos",
