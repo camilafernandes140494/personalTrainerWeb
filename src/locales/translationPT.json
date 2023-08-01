@@ -1,0 +1,19 @@
+{
+  "welcome": "Bem-vindo!",
+  "greeting": "Olá, {{name}}!",
+  "byCamila": "Desenvolvido por Camila Fernandes",
+  "personalTrainer": "Personal Trainer",
+  "GF": "Gustavo Fernandes",
+  "email":"Email",
+  "password":"Senha",
+  "button":{
+    "enter": "Entrar"
+  },
+  "nav":{
+    "home":"Inicio",
+    "training":"Treinos",
+    "physicalAssessment":"Avaliação Física",
+    "sportsNutrition":"Nutrição Esportiva",
+    "plansPrices":"Planos e Preços"
+  }
+}

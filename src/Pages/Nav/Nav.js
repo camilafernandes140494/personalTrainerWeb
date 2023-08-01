@@ -1,0 +1,70 @@
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import Paper from '@mui/material/Paper';
+import { Link } from 'react-router-dom';
+import FitnessCenterRoundedIcon from '@mui/icons-material/FitnessCenterRounded';
+import HomeIcon from '@mui/icons-material/Home';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import { useTranslation } from "react-i18next";
+
+export default function Nav() {
+  const [value, setValue] = React.useState(0);
+  const ref = React.useRef(null);
+  const { t } = useTranslation();
+
+  return (
+    <Box sx={{ pb: 7 }} ref={ref}>
+      <CssBaseline />
+
+      <Paper
+        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
+        elevation={3}
+      >
+        <BottomNavigation
+          showLabels
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+        >
+          <BottomNavigationAction
+            label={t("nav.home")}
+            value="/"
+            icon={<HomeIcon />}
+            component={Link}
+            to="/home"
+          />
+          <BottomNavigationAction
+            label={t("nav.training")}
+            icon={<FitnessCenterRoundedIcon />}
+            component={Link}
+            to="/training"
+          />
+          <BottomNavigationAction
+            label={t("nav.physicalAssessment")}
+            icon={<BarChartIcon />}
+            component={Link}
+            to="/physicalAssessment"
+          />
+          <BottomNavigationAction
+            label={t("nav.sportsNutrition")}
+            icon={<RestaurantIcon />}
+            component={Link}
+            to="/sportsNutrition"
+          />
+          <BottomNavigationAction
+            label={t("nav.plansPrices")}
+            icon={<MonetizationOnIcon />}
+            component={Link}
+            to="/plansPrices"
+          />
+        </BottomNavigation>
+      </Paper>
+    </Box>
+  );
+}
