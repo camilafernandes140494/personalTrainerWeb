@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../../Service/Connection/AuthContext"
+import { AuthContext } from "../../Service/Connection/AuthContext";
+import Nav from "../Nav/Nav";
 
 function PhysicalAssessment() {
   const { user, loading, logout } = useContext(AuthContext);
@@ -13,13 +14,15 @@ function PhysicalAssessment() {
   }
 
   return (
-      <div
-        style={{
-          borderRadius: "10%",
-          backgroundColor: "rgba(217, 217, 217, 0.4)",
-        }}>
-          
-      <p style={{color:'black'}}>Bem-vindo, {user.email}!</p> {/* Exibe uma mensagem de boas-vindas com o email do usuário autenticado */}
+    <div
+      style={{
+        borderRadius: "10%",
+        backgroundColor: "rgba(217, 217, 217, 0.4)",
+      }}
+    >
+      <Nav activeItems={2} />
+      <p style={{ color: "black" }}>Bem-vindo, {user.email}!</p>{" "}
+      {/* Exibe uma mensagem de boas-vindas com o email do usuário autenticado */}
       <button onClick={logout}>Logout</button> {/* Exibe um botão de logout */}
     </div>
   );
