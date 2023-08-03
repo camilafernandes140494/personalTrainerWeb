@@ -4,19 +4,21 @@
   "byCamila": "Desenvolvido por Camila Fernandes",
   "personalTrainer": "Personal Trainer",
   "GF": "Gustavo Fernandes",
-  "email":"Email",
-  "password":"Senha",
-  "button":{
+  "email": "Email",
+  "password": "Senha",
+  "changePassword": "Alterar senha",
+  "logout": "Sair",
+  "button": {
     "enter": "Entrar"
   },
-  "color":{
-    "blue":"Azul"
+  "color": {
+    "blue": "Azul"
   },
-  "nav":{
-    "home":"Inicio",
-    "training":"Treinos",
-    "physicalAssessment":"Avaliação Física",
-    "sportsNutrition":"Nutrição Esportiva",
-    "plansPrices":"Planos e Preços"
+  "nav": {
+    "home": "Inicio",
+    "training": "Treinos",
+    "physicalAssessment": "Avaliação Física",
+    "sportsNutrition": "Nutrição Esportiva",
+    "plansPrices": "Planos e Preços"
   }
 }
