@@ -1,8 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Service/Connection/AuthContext";
 import { useTheme } from "@mui/material/styles";
-import { Box, Avatar, Container } from "@mui/material";
+import {
+  Box,
+  Avatar,
+  Container,
+  CircularProgress,
+  ThemeProvider,
+} from "@mui/material";
 import { getDatabase, ref, get, child } from "firebase/database";
+import Login from "../Login/Login";
+import Nav from "../Nav/Nav";
 
 function Home() {
   const theme = useTheme();
@@ -50,40 +58,40 @@ function Home() {
     }
   }, [user]);
 
-  console.log(user);
   if (loading) {
-    return <p>Loading...</p>; // Exibe uma mensagem de carregamento enquanto verifica o estado de autenticação
+    return <CircularProgress color="success" />;
   }
-
   if (!user) {
-    return <p>Usuário não autenticado</p>; // Exibe uma mensagem quando o usuário não estiver autenticado
+    return <Login />;
   }
 
   return (
-    <Container>
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent={"center"}
-        alignItems={"center"}
-        // sx={{ backgroundColor: theme.palette.primary.main }}
-      >
-        <Avatar
-          sx={{ bgcolor: theme.palette.primary.main, marginRight: "16px" }}
+    <ThemeProvider theme={theme}>
+      <Container>
+        <Nav activeItems={0} />
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent={"center"}
+          alignItems={"center"}
         >
+          <Avatar
+            sx={{ bgcolor: theme.palette.primary.main, marginRight: "16px" }}
+          >
+            <p style={{ color: theme.palette.primary.contrastText }}>
+              {userInfo.nome && userInfo.nome[0] + userInfo.sobrenome[0]}
+            </p>
+          </Avatar>
           <p style={{ color: theme.palette.primary.contrastText }}>
-            {userInfo.nome && userInfo.nome[0] + userInfo.sobrenome[0]}
+            Bem-vindo(a), {userInfo.nome && userInfo.nome}!
           </p>
-        </Avatar>
+        </Box>
         <p style={{ color: theme.palette.primary.contrastText }}>
-          Bem-vindo(a), {userInfo.nome && userInfo.nome}!
+          {fraseAleatoria}
         </p>
-      </Box>
-      <p style={{ color: theme.palette.primary.contrastText }}>
-        {fraseAleatoria}
-      </p>
-      <button onClick={logout}>Logout</button>{" "}
-    </Container>
+        <button onClick={logout}>Logout</button>
+      </Container>
+    </ThemeProvider>
   );
 }
 

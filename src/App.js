@@ -8,7 +8,6 @@ import SportsNutrition from "./Pages/SportsNutrition/SportsNutrition";
 import PlansPrices from "./Pages/PlansPrices/PlansPrices";
 import I18nProvider from "./locales/Config/I18nProvider";
 import { AuthProvider } from "../src/Service/Connection/AuthContext";
-import Nav from "./Pages/Nav/Nav";
 import { useState } from "react";
 import { ThemeProvider, CssBaseline, Switch } from "@mui/material";
 import { darkTheme, lightTheme } from "./Theme/theme";
@@ -31,7 +30,6 @@ function App() {
             <Switch checked={darkMode} onChange={handleThemeChange} />
             <header className="App-header">
               <Router>
-                <Nav />
                 <Routes>
                   <Route path="/" element={<Login />} />
                   <Route path="/home" element={<Home />} />
