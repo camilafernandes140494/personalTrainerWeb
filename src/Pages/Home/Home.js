@@ -6,9 +6,7 @@ import {
   Avatar,
   Container,
   CircularProgress,
-  ThemeProvider,
   Typography,
-  Alert,
   Grid,
 } from '@mui/material';
 import { getDatabase, ref, get, child } from 'firebase/database';
@@ -18,6 +16,8 @@ import CustomButtonWithLabel from '../../components/button/button';
 import { useTranslation } from 'react-i18next';
 import auth from '../../Service/Connection';
 import { sendPasswordResetEmail } from 'firebase/auth';
+import CustomModal from '../../components/modal/modal';
+import CustomizedSnackbars from '../../components/toast/toast';
 
 function Home() {
   const theme = useTheme();
@@ -41,6 +41,7 @@ function Home() {
     'Acredite que você pode e você está no meio do caminho para alcançar.',
     'Lute com paixão e colherá sucesso com satisfação.',
   ];
+  const [snackbarData, setSnackbarData] = useState(null);
 
   function getSuccessPhrases() {
     const indiceAleatorio = Math.floor(Math.random() * successPhrases.length);
@@ -51,24 +52,29 @@ function Home() {
     event.preventDefault();
     sendPasswordResetEmail(auth, user.email)
       .then(() => {
-        <Alert severity="success" color="info">
-          This is a success alert — check it out!
-        </Alert>;
+        setSnackbarData({
+          openType: true,
+          severityType: 'success',
+          message: t('modal.sendEmail'),
+        });
       })
       .catch((error) => {
-        // Tratar erro de login
-        console.log(error);
+        setSnackbarData({
+          openType: true,
+          severityType: 'error',
+          message: { error },
+        });
       });
   };
 
   const dbRef = ref(getDatabase());
   const fraseAleatoria = getSuccessPhrases();
+
   useEffect(() => {
     if (user && user.uid) {
       get(child(dbRef, `users/${user.uid}`))
         .then((snapshot) => {
           if (snapshot.exists()) {
-            console.log(snapshot.val());
             setUserInfo(snapshot.val());
           } else {
             console.log('No data available');
@@ -80,64 +86,91 @@ function Home() {
     }
   }, [user]);
 
+  console.log(snackbarData);
   if (loading) {
-    return <CircularProgress color="success" />;
+    return <CircularProgress color={'success'} />;
   }
   if (!user) {
     return <Login />;
   }
 
   return (
-    <Container>
-      <Nav activeItems={0} />
-      <Alert severity="success" color="info">
-        This is a success alert — check it out!
-      </Alert>
-      ;
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="center"
-        alignItems="center"
-        marginTop="20px"
-      >
-        <Avatar
-          sx={{ bgcolor: theme.palette.primary.main, marginRight: '16px' }}
-        >
-          <p style={{ color: theme.palette.primary.contrastText }}>
-            {userInfo.nome && userInfo.nome[0] + userInfo.sobrenome[0]}
-          </p>
-        </Avatar>
-        <p style={{ color: theme.palette.primary.contrastText }}>
-          Bem-vindo(a), {userInfo.nome && userInfo.nome}!
-        </p>
-      </Box>
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item>
-          <CustomButtonWithLabel
-            onClick={resetPassword}
-            label={t('changePassword')}
-          />
-        </Grid>
-        <Grid item>
-          <CustomButtonWithLabel onClick={logout} label={t('logout')} />
-        </Grid>
-      </Grid>
-      <Typography
-        variant="body1"
+    <>
+      <Container
         sx={{
-          backgroundColor: theme.palette.primary.dark,
-          padding: '15px',
-          borderRadius: '10px',
-          color: theme.palette.primary.contrastText,
-          textAlign: 'center',
-          marginTop: '20px',
-          fontStyle: 'italic',
+          backgroundColor: theme.palette.secondary.main,
+          padding: '1%',
+          borderRadius: '20px',
         }}
       >
-        {fraseAleatoria}
-      </Typography>
-    </Container>
+        {snackbarData && (
+          <CustomizedSnackbars
+            openType={snackbarData.openType}
+            severityType={snackbarData.severityType}
+            message={snackbarData.message}
+          />
+        )}
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Avatar
+            sx={{ bgcolor: theme.palette.primary.main, marginRight: '16px' }}
+          >
+            <p style={{ color: theme.palette.primary.contrastText }}>
+              {userInfo.nome && userInfo.nome[0] + userInfo.sobrenome[0]}
+            </p>
+          </Avatar>
+          <p style={{ color: theme.palette.text.main }}>
+            Bem-vindo(a), {userInfo.nome && userInfo.nome}!
+          </p>
+        </Box>
+        <Grid
+          sx={{ margin: '1%' }}
+          container
+          spacing={2}
+          justifyContent="center"
+        >
+          <Grid item>
+            <CustomModal
+              title={t('changePassword')}
+              titleModal={t('changePassword')}
+              description={t('modal.description')}
+              children={
+                <Typography id="modal-modal-title">
+                  {t('modal.description')}
+                </Typography>
+              }
+              onSave={resetPassword}
+              onSaveTitle={t('modal.receiveEmail')}
+            />
+          </Grid>
+          <Grid item>
+            <CustomButtonWithLabel
+              variantCustom={'contained'}
+              onClick={logout}
+              label={t('logout')}
+            />
+          </Grid>
+        </Grid>
+        <Typography
+          variant="body1"
+          sx={{
+            backgroundColor: theme.palette.primary.main,
+            padding: '15px',
+            borderRadius: '10px',
+            color: theme.palette.primary.contrastText,
+            textAlign: 'center',
+            fontStyle: 'italic',
+          }}
+        >
+          {fraseAleatoria}
+        </Typography>
+      </Container>
+      <Nav activeItems={0} />
+    </>
   );
 }
 

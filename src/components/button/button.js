@@ -1,18 +1,44 @@
-import React from "react";
-import Button from "@mui/material/Button";
-import { styled } from "@mui/system";
+import React from 'react';
+import { Button, Box, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
-const CustomButton = styled(Button)(({ theme }) => ({
-  borderRadius: "20px", // Ajuste o valor de acordo com o arredondamento desejado
-  backgroundColor: "#78A55A",
-  color: "white",
-  "&:hover": {
-    backgroundColor: "#678E49", // Cor de hover opcional
-  },
-}));
+const CustomButtonWithLabel = ({
+  label,
+  onClick,
+  icons,
+  sizeCustom,
+  variantCustom,
+  colorCustom,
+}) => {
+  const theme = useTheme();
 
-const CustomButtonWithLabel = ({ label, ...rest }) => {
-  return <CustomButton {...rest}>{label}</CustomButton>;
+  return (
+    <Button
+      onClick={onClick}
+      variant={variantCustom}
+      size={sizeCustom}
+      color={colorCustom}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: !icons ? '15px' : '0px',
+          justifyContent: 'flex-end',
+        }}
+      >
+        {icons}
+        <Typography
+          variant="body2"
+          sx={{
+            color: theme.palette.primary.contrastText,
+          }}
+        >
+          {label}
+        </Typography>
+      </Box>
+    </Button>
+  );
 };
 
 export default CustomButtonWithLabel;

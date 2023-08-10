@@ -1,27 +1,37 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
 const lightTheme = createTheme({
   palette: {
-    type: "light",
+    type: 'light',
     background: {
-      default: "#78A55A",
+      default: '#ECEFF1',
     },
-    // Defina aqui as cores do modo claro
     primary: {
-      main: "#78A55A",
+      main: '#60A357',
+    },
+    secondary: {
+      main: '#D4D4D4',
+    },
+    text: {
+      main: '#252525',
     },
   },
 });
 
 const darkTheme = createTheme({
   palette: {
-    type: "dark",
+    type: 'dark',
     background: {
-      default: "#787878",
+      default: '#252729',
     },
-    // Defina aqui as cores do modo escuro
     primary: {
-      main: "#364a28",
+      main: '#2E7D32',
+    },
+    secondary: {
+      main: '#707070',
+    },
+    text: {
+      main: '#ECECEC',
     },
   },
 });

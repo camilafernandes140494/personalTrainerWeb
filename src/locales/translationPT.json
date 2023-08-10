@@ -8,6 +8,14 @@
   "password": "Senha",
   "changePassword": "Alterar senha",
   "logout": "Sair",
+  "modal": {
+    "close": "Fechar",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "description": "Gostaria de receber um e-mail para redefinir a sua senha?",
+    "receiveEmail": "Receber e-mail",
+    "sendEmail": "E-mail enviado"
+  },
   "button": {
     "enter": "Entrar"
   },
