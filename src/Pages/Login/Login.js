@@ -33,7 +33,14 @@ function Login() {
     letterSpacing: '3px',
   };
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
       <Grid container spacing={2}>
         <Grid xs={8}></Grid>
       </Grid>
@@ -42,6 +49,7 @@ function Login() {
           borderRadius: '10%',
           backgroundColor: 'rgba(217, 217, 217, 0.4)',
           padding: '3%',
+          width: '50%',
         }}
       >
         <Box textAlign="center" py={4}>
@@ -81,12 +89,12 @@ function Login() {
         alignContent="center"
         margin="1%"
       >
-        <SettingsOutlined sx={{ color: '#78A55A' }} />
-        <Typography component="div" style={{ color: '#78A55A' }}>
+        <SettingsOutlined color="primary" />
+        <Typography component="div" color="primary">
           {t('byCamila')}
         </Typography>
       </Box>
-    </>
+    </Box>
   );
 }
 

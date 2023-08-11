@@ -1,11 +1,14 @@
-import React, { createContext, useState, useEffect } from "react";
-import auth from "../Connection/index"
+import React, { createContext, useState, useEffect } from 'react';
+import auth from '../Connection/index';
+import { getDatabase, ref, get, child } from 'firebase/database';
 
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const dbRef = ref(getDatabase());
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -31,8 +34,24 @@ function AuthProvider({ children }) {
     logout,
   };
 
+  useEffect(() => {
+    if (user && user.uid) {
+      get(child(dbRef, `users/${user.uid}`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            setUserInfo(snapshot.val());
+          } else {
+            console.log('No data available');
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [user, dbRef]);
+
   return (
-    <AuthContext.Provider value={authContextValue}>
+    <AuthContext.Provider value={{ ...authContextValue, userInfo }}>
       {children}
     </AuthContext.Provider>
   );

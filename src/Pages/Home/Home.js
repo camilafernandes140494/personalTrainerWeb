@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Service/Connection/AuthContext';
 import { useTheme } from '@mui/material/styles';
 import {
@@ -9,7 +9,6 @@ import {
   Typography,
   Grid,
 } from '@mui/material';
-import { getDatabase, ref, get, child } from 'firebase/database';
 import Login from '../Login/Login';
 import Nav from '../Nav/Nav';
 import CustomButtonWithLabel from '../../components/button/button';
@@ -21,8 +20,7 @@ import CustomizedSnackbars from '../../components/toast/toast';
 
 function Home() {
   const theme = useTheme();
-  const { user, loading, logout } = useContext(AuthContext);
-  const [userInfo, setUserInfo] = useState({});
+  const { user, loading, logout, userInfo } = useContext(AuthContext);
   const { t } = useTranslation();
   const successPhrases = [
     'No pain, no gain.',
@@ -67,26 +65,8 @@ function Home() {
       });
   };
 
-  const dbRef = ref(getDatabase());
   const fraseAleatoria = getSuccessPhrases();
 
-  useEffect(() => {
-    if (user && user.uid) {
-      get(child(dbRef, `users/${user.uid}`))
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            setUserInfo(snapshot.val());
-          } else {
-            console.log('No data available');
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [user]);
-
-  console.log(snackbarData);
   if (loading) {
     return <CircularProgress color={'success'} />;
   }
@@ -119,7 +99,7 @@ function Home() {
           <Avatar
             sx={{ bgcolor: theme.palette.primary.main, marginRight: '16px' }}
           >
-            <p style={{ color: theme.palette.primary.contrastText }}>
+            <p style={{ color: theme.palette.textButton.main }}>
               {userInfo.nome && userInfo.nome[0] + userInfo.sobrenome[0]}
             </p>
           </Avatar>
@@ -161,7 +141,7 @@ function Home() {
             backgroundColor: theme.palette.primary.main,
             padding: '15px',
             borderRadius: '10px',
-            color: theme.palette.primary.contrastText,
+            color: theme.palette.textButton.main,
             textAlign: 'center',
             fontStyle: 'italic',
           }}

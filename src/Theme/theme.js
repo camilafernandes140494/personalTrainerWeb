@@ -13,7 +13,10 @@ const lightTheme = createTheme({
       main: '#D4D4D4',
     },
     text: {
-      main: '#252525',
+      main: '#242424',
+    },
+    textButton: {
+      main: '#DDDDDD',
     },
   },
 });
@@ -25,13 +28,16 @@ const darkTheme = createTheme({
       default: '#252729',
     },
     primary: {
-      main: '#2E7D32',
+      main: '#006400',
     },
     secondary: {
       main: '#707070',
     },
     text: {
-      main: '#ECECEC',
+      main: '#DADADA',
+    },
+    textButton: {
+      main: '#DDDDDD',
     },
   },
 });

@@ -31,7 +31,7 @@ const CustomButtonWithLabel = ({
         <Typography
           variant="body2"
           sx={{
-            color: theme.palette.primary.contrastText,
+            color: theme.palette.textButton.main,
           }}
         >
           {label}
