@@ -9,13 +9,14 @@ import {
   Container,
   CircularProgress,
   Typography,
-  Grid,
   Card,
   Button,
+  Checkbox,
 } from '@mui/material';
 import Login from '../Login/Login';
 import { getDatabase, ref, get, child } from 'firebase/database';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import CustomButtonWithLabel from '../../components/button/button';
 
 function Training() {
   const { user, loading, userInfo } = useContext(AuthContext);
@@ -23,6 +24,7 @@ function Training() {
   const theme = useTheme();
   const { t } = useTranslation();
   const [trainingInfo, setTrainingInfo] = useState([]);
+  const [training, setTraining] = useState('');
 
   useEffect(() => {
     if (user && user.uid) {
@@ -41,9 +43,11 @@ function Training() {
     }
   }, [userInfo]);
 
-  console.log(
-    Object.keys(trainingInfo).length > 0 && Object.keys(trainingInfo['A'])[0]
-  );
+  // console.log(
+  //   Object.keys(trainingInfo).length > 0 && Object.keys(trainingInfo['A'])
+  // );
+
+  console.log(training && trainingInfo[training]['Abdominal Supra']);
 
   if (loading) {
     return <CircularProgress color={'success'} />;
@@ -70,72 +74,96 @@ function Training() {
           Bem-vindo(a), {userInfo.nome && userInfo.nome}!
         </p>
       </Box>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          {Object.keys(trainingInfo).length > 0 &&
-            Object.keys(trainingInfo).map((key) => (
-              <div key={key}>
-                <Card
-                  sx={{
-                    width: '30%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginTop: '1%',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Button>
-                    <FitnessCenterIcon fontSize="large" />
-                    <Box
-                      display="flex"
-                      flexDirection="column"
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <Typography variant="h6" color="text.secondary">
-                        Treino {key}
-                      </Typography>
-                      <Typography color="text.secondary">
-                        {Object.keys(trainingInfo[key])[0]}
-                      </Typography>
-                    </Box>
-                  </Button>
-                </Card>
-              </div>
-            ))}
-        </Grid>
-        <Grid item xs={6}>
-          {Object.keys(trainingInfo).length > 0 &&
-            Object.keys(trainingInfo).map((key) => (
-              <div key={key}>
-                <Card
-                  sx={{
-                    width: '20%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginTop: '1%',
-                  }}
-                >
-                  <Button>
-                    <Box
-                      display="flex"
-                      flexDirection="column"
-                      justifyContent="center"
-                      alignItems="center"
-                    >
-                      <Typography variant="h6" color="text.secondary">
-                        Treino {key}
-                      </Typography>
-                      <Typography color="text.secondary">
-                        {Object.keys(trainingInfo[key])[0]}
-                      </Typography>
-                    </Box>
-                  </Button>
-                </Card>
-              </div>
-            ))}
-        </Grid>
-      </Grid>
+      <Box
+        sx={{
+          justifyContent: 'center',
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <Box display="flex" flexDirection="row" gap={'2rem'}>
+          <Box display="flex" flexDirection="column" gap={'1rem'}>
+            {Object.keys(trainingInfo).length > 0 &&
+              Object.keys(trainingInfo).map((key) => (
+                <div key={key}>
+                  <Card
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Button onClick={() => setTraining(key)}>
+                      <FitnessCenterIcon fontSize="large" />
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <Typography variant="h6" color="text.secondary">
+                          Treino {key}
+                        </Typography>
+                        <Typography color="text.secondary">
+                          {Object.keys(trainingInfo[key])[0]}
+                        </Typography>
+                      </Box>
+                    </Button>
+                  </Card>
+                </div>
+              ))}
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            gap={'1rem'}
+          >
+            {training && (
+              <Typography variant="h6" color={theme.palette.text.main}>
+                Treino {training}
+              </Typography>
+            )}
+            {training &&
+              Object.keys(trainingInfo[training]).map(
+                (key, index) =>
+                  index !== 0 && (
+                    <div key={key}>
+                      <Card
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          padding: '10px',
+                        }}
+                      >
+                        <Box
+                          display="flex"
+                          flexDirection="column"
+                          alignItems="center"
+                        >
+                          <CustomButtonWithLabel
+                            variantCustom={'contained'}
+                            // onClick={logout}
+                            label={'Play'}
+                          />
+                          <Checkbox
+                            defaultChecked
+                            color="success"
+                            size="small"
+                          />
+                          <Typography variant="h6">Treino {key}</Typography>
+                          <Typography variant="h6" color="text.secondary">
+                            {trainingInfo[training][key]['tempo_pausa']}
+                          </Typography>
+                        </Box>
+                      </Card>
+                    </div>
+                  )
+              )}
+          </Box>
+        </Box>
+      </Box>
       <Nav activeItems={1} />
     </Container>
   );
