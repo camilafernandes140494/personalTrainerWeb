@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import Login from '../Login/Login';
 import { getDatabase, ref, get, child } from 'firebase/database';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import CustomButtonWithLabel from '../../components/button/button';
 
 function Training() {
@@ -25,7 +24,51 @@ function Training() {
   const { t } = useTranslation();
   const [trainingInfo, setTrainingInfo] = useState([]);
   const [training, setTraining] = useState('');
+  const [time, setTime] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
 
+  function formatTime(milliseconds) {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    const millisecondsRemaining = milliseconds % 1000;
+
+    const formattedHours = hours.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = seconds.toString().padStart(2, '0');
+    const formattedMilliseconds = millisecondsRemaining
+      .toString()
+      .padStart(2, '0');
+
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
+  }
+  useEffect(() => {
+    let intervalId;
+
+    if (isRunning) {
+      intervalId = setInterval(() => {
+        setTime((prevTime) => prevTime + 1);
+      }, 1000);
+    }
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [isRunning]);
+
+  const handleStart = () => {
+    setIsRunning(true);
+  };
+
+  const handlePause = () => {
+    setIsRunning(false);
+  };
+
+  const handleReset = () => {
+    setTime(0);
+    setIsRunning(false);
+  };
   useEffect(() => {
     if (user && user.uid) {
       get(child(dbRef, `treinos/${user.uid}`))
@@ -43,18 +86,35 @@ function Training() {
     }
   }, [userInfo]);
 
-  // console.log(
-  //   Object.keys(trainingInfo).length > 0 && Object.keys(trainingInfo['A'])
-  // );
-
-  console.log(training && trainingInfo[training]['Abdominal Supra']);
-
   if (loading) {
     return <CircularProgress color={'success'} />;
   }
   if (!user) {
     return <Login />;
   }
+
+  function fixDate(date) {
+    var partes = date.split('-');
+    var day = partes[0];
+    var month = partes[1];
+    var year = partes[2];
+    if (month.length === 1) {
+      month = '0' + month;
+    }
+    var newDateOld = new Date(year, month, day);
+
+    var dateOld = day + '/' + month + '/' + year;
+    var today = new Date();
+
+    if (newDateOld > today) {
+      return [dateOld, theme.palette.text.main];
+    } else if (newDateOld < today) {
+      return [dateOld, 'red'];
+    } else {
+      return [dateOld, theme.palette.text.main];
+    }
+  }
+
   return (
     <Container>
       <Box
@@ -91,21 +151,29 @@ function Training() {
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
+                      backgroundColor: theme.palette.secondary.main,
+                      borderRadius: '20px',
                     }}
                   >
                     <Button onClick={() => setTraining(key)}>
-                      <FitnessCenterIcon fontSize="large" />
                       <Box
                         display="flex"
                         flexDirection="column"
                         justifyContent="center"
                         alignItems="center"
+                        padding="10px"
                       >
-                        <Typography variant="h6" color="text.secondary">
+                        <Typography
+                          variant="subtitle1"
+                          color={theme.palette.grey.main}
+                        >
                           Treino {key}
                         </Typography>
-                        <Typography color="text.secondary">
-                          {Object.keys(trainingInfo[key])[0]}
+                        <Typography
+                          variant="caption"
+                          color={fixDate(Object.keys(trainingInfo[key])[0])[1]}
+                        >
+                          {fixDate(Object.keys(trainingInfo[key])[0])[0]}
                         </Typography>
                       </Box>
                     </Button>
@@ -121,9 +189,36 @@ function Training() {
             gap={'1rem'}
           >
             {training && (
-              <Typography variant="h6" color={theme.palette.text.main}>
-                Treino {training}
-              </Typography>
+              <>
+                <Typography variant="h6" color={theme.palette.text.main}>
+                  Treino {training}
+                </Typography>
+
+                <Typography
+                  variant="h5"
+                  sx={{ border: '2px solid', padding: 1, borderRadius: 30 }}
+                  color={theme.palette.primary.main}
+                >
+                  {formatTime(time)}
+                </Typography>
+                <Box display="flex" gap={'1rem'}>
+                  <CustomButtonWithLabel
+                    variantCustom={'contained'}
+                    label={'Iniciar'}
+                    onClick={handleStart}
+                  />
+                  <CustomButtonWithLabel
+                    variantCustom={'contained'}
+                    label={'Pausar'}
+                    onClick={handlePause}
+                  />
+                  <CustomButtonWithLabel
+                    variantCustom={'contained'}
+                    label={'Resetar'}
+                    onClick={handleReset}
+                  />
+                </Box>
+              </>
             )}
             {training &&
               Object.keys(trainingInfo[training]).map(
@@ -135,6 +230,9 @@ function Training() {
                           display: 'flex',
                           justifyContent: 'center',
                           padding: '10px',
+                          backgroundColor: theme.palette.secondary.main,
+                          borderRadius: '30px',
+                          width: '280px',
                         }}
                       >
                         <Box
@@ -147,14 +245,26 @@ function Training() {
                             // onClick={logout}
                             label={'Play'}
                           />
-                          <Checkbox
-                            defaultChecked
-                            color="success"
-                            size="small"
-                          />
-                          <Typography variant="h6">Treino {key}</Typography>
-                          <Typography variant="h6" color="text.secondary">
-                            {trainingInfo[training][key]['tempo_pausa']}
+                          <Box
+                            display="flex"
+                            flexDirection="row"
+                            alignItems="center"
+                          >
+                            <Typography
+                              variant="h6"
+                              color={theme.palette.text.main}
+                            >
+                              Treino {key}
+                            </Typography>
+
+                            <Checkbox defaultChecked size="small" />
+                          </Box>
+                          <Typography variant="body1" color="text.secondary">
+                            {trainingInfo[training][key]['tamanho']}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            Pausa: {trainingInfo[training][key]['tempo_pausa']}{' '}
+                            segundos
                           </Typography>
                         </Box>
                       </Card>

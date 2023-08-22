@@ -18,6 +18,9 @@ const lightTheme = createTheme({
     textButton: {
       main: '#DDDDDD',
     },
+    grey: {
+      main: '#838282',
+    },
   },
 });
 
@@ -38,6 +41,9 @@ const darkTheme = createTheme({
     },
     textButton: {
       main: '#DDDDDD',
+    },
+    grey: {
+      main: '#C2C2C2',
     },
   },
 });
