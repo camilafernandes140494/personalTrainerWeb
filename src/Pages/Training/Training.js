@@ -24,34 +24,30 @@ function Training() {
   const { t } = useTranslation();
   const [trainingInfo, setTrainingInfo] = useState([]);
   const [training, setTraining] = useState('');
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
+  const [selectedTraining, setSelectedTraining] = useState(null);
 
   function formatTime(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
-    const millisecondsRemaining = milliseconds % 1000;
 
     const formattedHours = hours.toString().padStart(2, '0');
     const formattedMinutes = minutes.toString().padStart(2, '0');
     const formattedSeconds = seconds.toString().padStart(2, '0');
-    const formattedMilliseconds = millisecondsRemaining
-      .toString()
-      .padStart(2, '0');
 
-    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}:${formattedMilliseconds}`;
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
   }
   useEffect(() => {
     let intervalId;
 
     if (isRunning) {
       intervalId = setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
+        setTime((prevTime) => prevTime + 1000);
       }, 1000);
     }
-
     return () => {
       clearInterval(intervalId);
     };
@@ -155,7 +151,12 @@ function Training() {
                       borderRadius: '20px',
                     }}
                   >
-                    <Button onClick={() => setTraining(key)}>
+                    <Button
+                      onClick={() => [
+                        setTraining(key),
+                        setSelectedTraining(null),
+                      ]}
+                    >
                       <Box
                         display="flex"
                         flexDirection="column"
@@ -240,11 +241,33 @@ function Training() {
                           flexDirection="column"
                           alignItems="center"
                         >
-                          <CustomButtonWithLabel
-                            variantCustom={'contained'}
-                            // onClick={logout}
-                            label={'Play'}
-                          />
+                          <Box
+                            sx={{
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <img
+                              style={{
+                                width: '160px',
+                                height: 'auto',
+                                borderRadius: '20px',
+                                border: '1px solid rgba(128, 128, 128, 0.5)',
+                                display:
+                                  selectedTraining === key ? 'block' : 'none',
+                              }}
+                              src={trainingInfo[training][key]['giff']}
+                              alt="GIF"
+                            />
+                          </Box>
+                          {selectedTraining !== key && (
+                            <CustomButtonWithLabel
+                              variantCustom={'contained'}
+                              onClick={() => setSelectedTraining(key)}
+                              label={'Play'}
+                            />
+                          )}
+
                           <Box
                             display="flex"
                             flexDirection="row"
@@ -257,7 +280,7 @@ function Training() {
                               Treino {key}
                             </Typography>
 
-                            <Checkbox defaultChecked size="small" />
+                            <Checkbox defaultChecked={false} size="small" />
                           </Box>
                           <Typography variant="body1" color="text.secondary">
                             {trainingInfo[training][key]['tamanho']}
