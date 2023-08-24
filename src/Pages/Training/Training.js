@@ -137,7 +137,11 @@ function Training() {
           alignItems: 'center',
         }}
       >
-        <Box display="flex" flexDirection="row" gap={'2rem'}>
+        <Box
+          display="flex"
+          flexDirection={{ xs: 'column', md: 'row' }}
+          gap={'2rem'}
+        >
           <Box display="flex" flexDirection="column" gap={'1rem'}>
             {Object.keys(trainingInfo).length > 0 &&
               Object.keys(trainingInfo).map((key) => (
@@ -233,7 +237,7 @@ function Training() {
                           padding: '10px',
                           backgroundColor: theme.palette.secondary.main,
                           borderRadius: '30px',
-                          width: '280px',
+                          minWidth: '280px',
                         }}
                       >
                         <Box

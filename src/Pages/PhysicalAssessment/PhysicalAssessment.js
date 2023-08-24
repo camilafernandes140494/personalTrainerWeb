@@ -11,7 +11,6 @@ import {
   Typography,
   Card,
   Button,
-  Checkbox,
 } from '@mui/material';
 import Login from '../Login/Login';
 import { getDatabase, ref, get, child } from 'firebase/database';
@@ -40,7 +39,6 @@ function PhysicalAssessment() {
         });
     }
   }, [userInfo]);
-  console.log(physicalAssessment[training]);
 
   if (loading) {
     return <CircularProgress color={'success'} />;
@@ -97,7 +95,11 @@ function PhysicalAssessment() {
           alignItems: 'center',
         }}
       >
-        <Box display="flex" flexDirection="row" gap={'2rem'}>
+        <Box
+          display="flex"
+          flexDirection={{ xs: 'column', md: 'row' }}
+          gap={'2rem'}
+        >
           <Box display="flex" flexDirection="column" gap={'1rem'}>
             {Object.keys(physicalAssessment).length > 0 &&
               Object.keys(physicalAssessment).map((key) => (
@@ -192,12 +194,40 @@ function PhysicalAssessment() {
                 <Typography variant="h6" color={theme.palette.primary.main}>
                   Circunferências
                 </Typography>
-                <Typography
-                  variant="caption"
-                  color={theme.palette.primary.main}
+                <Box
+                  display="flex"
+                  flexDirection={{ xs: 'column', md: 'row' }}
+                  alignItems={'center'}
+                  gap={'10px'}
                 >
-                  {physicalAssessment[training]['Circunferências']['Abdômen']}
-                </Typography>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="flex-start"
+                  >
+                    {Object.keys(
+                      physicalAssessment[training]['Circunferências']
+                    ).map((key, value) => (
+                      <Typography
+                        variant="caption"
+                        color={theme.palette.text.main}
+                      >
+                        {key} : {value} cm
+                      </Typography>
+                    ))}
+                  </Box>
+                  <img
+                    style={{
+                      width: '160px',
+                      height: 'auto',
+                      borderRadius: '20px',
+                    }}
+                    src={
+                      'https://firebasestorage.googleapis.com/v0/b/personalgustavofernandes-f0dd5.appspot.com/o/PhysicalAssessment%2Fbody.png?alt=media&token=8724985c-6cd8-4f72-9402-d511d0fd1469'
+                    }
+                    alt="GIF"
+                  />
+                </Box>
               </Box>
             </Card>
           )}
