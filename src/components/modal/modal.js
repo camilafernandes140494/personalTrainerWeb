@@ -57,7 +57,6 @@ const CustomModal = ({ title, children, titleModal, onSave, onSaveTitle }) => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row',
               gap: '15px',
               justifyContent: 'flex-end',
             }}
