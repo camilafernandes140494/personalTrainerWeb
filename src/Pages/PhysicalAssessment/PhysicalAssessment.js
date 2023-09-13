@@ -112,6 +112,7 @@ function PhysicalAssessment() {
                       backgroundColor: theme.palette.secondary.main,
                       borderRadius: '20px',
                     }}
+                    onClick={() => [setTraining(key)]}
                   >
                     <Button onClick={() => [setTraining(key)]}>
                       <Box

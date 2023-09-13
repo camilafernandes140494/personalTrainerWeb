@@ -154,6 +154,10 @@ function Training() {
                       backgroundColor: theme.palette.secondary.main,
                       borderRadius: '20px',
                     }}
+                    onClick={() => [
+                      setTraining(key),
+                      setSelectedTraining(null),
+                    ]}
                   >
                     <Button
                       onClick={() => [
