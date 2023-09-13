@@ -61,6 +61,7 @@ const CustomModal = ({ title, children, titleModal, onSave, onSaveTitle }) => {
               gap: '15px',
               justifyContent: 'flex-end',
             }}
+            flexDirection={{ xs: 'column', md: 'row' }}
           >
             <CustomButtonWithLabel
               variantCustom={'contained'}
