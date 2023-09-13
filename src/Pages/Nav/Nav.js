@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -11,10 +11,12 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import { useTranslation } from 'react-i18next';
+import { AuthContext } from '../../Service/Connection/AuthContext';
 
 export default function Nav(activeItems) {
   const ref = React.useRef(null);
   const { t } = useTranslation();
+  const { user } = useContext(AuthContext);
 
   return (
     <Box sx={{ pb: 7 }} ref={ref}>
@@ -31,18 +33,23 @@ export default function Nav(activeItems) {
             component={Link}
             to="/home"
           />
-          <BottomNavigationAction
-            label={t('nav.training')}
-            icon={<FitnessCenterRoundedIcon />}
-            component={Link}
-            to="/training"
-          />
-          <BottomNavigationAction
-            label={t('nav.physicalAssessment')}
-            icon={<BarChartIcon />}
-            component={Link}
-            to="/physicalAssessment"
-          />
+
+          {user.uid !== 'Hq8K00ZJiKfOB987RamVa31XYTq1' && (
+            <BottomNavigationAction
+              label={t('nav.training')}
+              icon={<FitnessCenterRoundedIcon />}
+              component={Link}
+              to="/training"
+            />
+          )}
+          {user.uid !== 'Hq8K00ZJiKfOB987RamVa31XYTq1' && (
+            <BottomNavigationAction
+              label={t('nav.physicalAssessment')}
+              icon={<BarChartIcon />}
+              component={Link}
+              to="/physicalAssessment"
+            />
+          )}
           <BottomNavigationAction
             label={t('nav.sportsNutrition')}
             icon={<RestaurantIcon />}

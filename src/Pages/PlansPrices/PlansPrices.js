@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../Service/Connection/AuthContext";
-import Nav from "../Nav/Nav";
+import React, { useContext } from 'react';
+import { AuthContext } from '../../Service/Connection/AuthContext';
+import Nav from '../Nav/Nav';
+import Private from '../Private/private';
 
 function PlansPrices() {
   const { user, loading, logout } = useContext(AuthContext);
@@ -16,12 +17,14 @@ function PlansPrices() {
   return (
     <div
       style={{
-        borderRadius: "10%",
-        backgroundColor: "rgba(217, 217, 217, 0.4)",
+        borderRadius: '10%',
+        backgroundColor: 'rgba(217, 217, 217, 0.4)',
       }}
     >
       <Nav activeItems={4} />
-      <p style={{ color: "black" }}>Bem-vindo, {user.email}!</p>{" "}
+      <Private
+        children={<p style={{ color: 'black' }}>Bem-vindo, {user.email}!</p>}
+      />
       <button onClick={logout}>Logout</button>
     </div>
   );

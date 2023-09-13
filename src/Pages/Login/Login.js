@@ -19,7 +19,11 @@ function Login() {
     event.preventDefault();
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        navigate('/Home');
+        if (userCredential.uid === 'Hq8K00ZJiKfOB987RamVa31XYTq1') {
+          navigate('/Home');
+        } else {
+          navigate('/Home');
+        }
       })
       .catch((error) => {
         // Tratar erro de login

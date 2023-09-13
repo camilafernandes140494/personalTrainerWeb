@@ -57,7 +57,6 @@ function SportsNutrition() {
     return <Login />;
   }
 
-  console.log(procucts);
   return (
     <Container>
       <Box
