@@ -2,7 +2,7 @@ import { AuthContext } from '../../Service/Connection/AuthContext';
 import Nav from '../Nav/Nav';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import {
   Box,
   Avatar,
@@ -10,7 +10,6 @@ import {
   CircularProgress,
   Typography,
   Card,
-  Button,
 } from '@mui/material';
 import Login from '../Login/Login';
 import { getDatabase, ref, get, child } from 'firebase/database';
@@ -21,7 +20,7 @@ function SportsNutrition() {
   const { user, loading, userInfo } = useContext(AuthContext);
   const dbRef = ref(getDatabase());
   const theme = useTheme();
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const [procucts, setProcucts] = useState('');
 
   useEffect(() => {
@@ -39,10 +38,10 @@ function SportsNutrition() {
           console.error(error);
         });
     }
-  }, [userInfo]);
+  });
 
   const handleClick = () => {
-    const phoneNumber = '19999669947'; // Substitua pelo número de telefone
+    // const phoneNumber = '19999669947'; // Substitua pelo número de telefone
     const message = 'Olá!'; // Substitua pela mensagem desejada
     const encodedMessage = encodeURIComponent(message);
     const whatsappURL = `whatsapp://send?phone=+55019999669947&text=${encodedMessage}`;

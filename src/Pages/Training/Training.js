@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../Service/Connection/AuthContext';
 import Nav from '../Nav/Nav';
 import { useTheme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import {
   Box,
   Avatar,
@@ -21,7 +21,7 @@ function Training() {
   const { user, loading, userInfo } = useContext(AuthContext);
   const dbRef = ref(getDatabase());
   const theme = useTheme();
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const [trainingInfo, setTrainingInfo] = useState([]);
   const [training, setTraining] = useState('');
   const [time, setTime] = useState(1);
@@ -80,7 +80,7 @@ function Training() {
           console.error(error);
         });
     }
-  }, [userInfo]);
+  });
 
   if (loading) {
     return <CircularProgress color={'success'} />;

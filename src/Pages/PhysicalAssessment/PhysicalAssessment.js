@@ -2,7 +2,7 @@ import { AuthContext } from '../../Service/Connection/AuthContext';
 import Nav from '../Nav/Nav';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import {
   Box,
   Avatar,
@@ -19,7 +19,7 @@ function PhysicalAssessment() {
   const { user, loading, userInfo } = useContext(AuthContext);
   const dbRef = ref(getDatabase());
   const theme = useTheme();
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const [physicalAssessment, setPhysicalAssessment] = useState([]);
   const [training, setTraining] = useState('');
 
@@ -38,7 +38,7 @@ function PhysicalAssessment() {
           console.error(error);
         });
     }
-  }, [userInfo]);
+  });
 
   if (loading) {
     return <CircularProgress color={'success'} />;
