@@ -112,6 +112,7 @@ function Home() {
           container
           spacing={2}
           justifyContent="center"
+          flexDirection={{ xs: 'column', md: 'row' }}
         >
           <Grid item>
             <CustomModal
