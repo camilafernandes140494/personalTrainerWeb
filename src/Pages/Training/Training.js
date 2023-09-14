@@ -27,6 +27,7 @@ function Training() {
   const [time, setTime] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
   // const [selectedTraining, setSelectedTraining] = useState(null);
+  const [selectedTrainings, setSelectedTrainings] = useState({});
 
   function formatTime(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -111,6 +112,12 @@ function Training() {
     }
   }
 
+  const handleSelectTraining = (key) => {
+    setSelectedTrainings({
+      ...selectedTrainings,
+      [key]: true,
+    });
+  };
   return (
     <Container>
       <Box
@@ -234,76 +241,18 @@ function Training() {
                 (key, index) =>
                   index !== 0 && (
                     <div key={key}>
+                      {/* <Customizedtraining
+                        keys={key}
+                        training={training}
+                        trainingInfo={trainingInfo}
+                      /> */}
                       <Customizedtraining
                         keys={key}
                         training={training}
                         trainingInfo={trainingInfo}
+                        selectedTraining={selectedTrainings[key]}
+                        onSelectTraining={() => handleSelectTraining(key)}
                       />
-                      {/* <Card
-                        sx={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          padding: '10px',
-                          backgroundColor: theme.palette.secondary.main,
-                          borderRadius: '30px',
-                          minWidth: '280px',
-                        }}
-                      >
-                        <Box
-                          display="flex"
-                          flexDirection="column"
-                          alignItems="center"
-                        >
-                          <Box
-                            sx={{
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <img
-                              style={{
-                                width: '160px',
-                                height: 'auto',
-                                borderRadius: '20px',
-                                border: '1px solid rgba(128, 128, 128, 0.5)',
-                                display:
-                                  selectedTraining === key ? 'block' : 'none',
-                              }}
-                              src={trainingInfo[training][key]['giff']}
-                              alt="GIF"
-                            />
-                          </Box>
-                          {selectedTraining !== key && (
-                            <CustomButtonWithLabel
-                              variantCustom={'contained'}
-                              onClick={() => setSelectedTraining(key)}
-                              label={'Play'}
-                            />
-                          )}
-
-                          <Box
-                            display="flex"
-                            flexDirection="row"
-                            alignItems="center"
-                          >
-                            <Typography
-                              variant="h6"
-                              color={theme.palette.text.main}
-                            >
-                              Treino {key}
-                            </Typography>
-
-                            <Checkbox defaultChecked={false} size="small" />
-                          </Box>
-                          <Typography variant="body1" color="text.secondary">
-                            {trainingInfo[training][key]['tamanho']}
-                          </Typography>
-                          <Typography variant="caption" color="text.secondary">
-                            Pausa: {trainingInfo[training][key]['tempo_pausa']}{' '}
-                            segundos
-                          </Typography>
-                        </Box>
-                      </Card> */}
                     </div>
                   )
               )}

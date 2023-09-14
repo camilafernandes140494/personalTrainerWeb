@@ -7,7 +7,7 @@ import CustomButtonWithLabel from '../button/button';
 export default function Customizedtraining({ keys, trainingInfo, training }) {
   const theme = useTheme();
   const [selectedTraining, setSelectedTraining] = useState(null);
-  console.log(selectedTraining, keys);
+
   return (
     <Card
       sx={{
@@ -20,29 +20,23 @@ export default function Customizedtraining({ keys, trainingInfo, training }) {
       }}
     >
       <Box display="flex" flexDirection="column" alignItems="center">
-        <Box
-          sx={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+        {selectedTraining !== keys ? (
+          <CustomButtonWithLabel
+            variantCustom={'contained'}
+            onClick={() => setSelectedTraining(keys)}
+            label={'Play'}
+          />
+        ) : (
           <img
             style={{
               width: '160px',
               height: 'auto',
               borderRadius: '20px',
               border: '1px solid rgba(128, 128, 128, 0.5)',
-              display: selectedTraining === keys ? 'block' : 'none',
+              //   display: selectedTraining === keys ? 'block' : 'none',
             }}
             src={trainingInfo[training][keys]['giff']}
             alt="GIF"
-          />
-        </Box>
-        {selectedTraining !== keys && (
-          <CustomButtonWithLabel
-            variantCustom={'contained'}
-            onClick={() => setSelectedTraining(keys)}
-            label={'Play'}
           />
         )}
 
