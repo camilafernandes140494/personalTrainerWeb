@@ -12,7 +12,6 @@ import {
   Typography,
   Card,
   Button,
-  Checkbox,
 } from '@mui/material';
 import Login from '../Login/Login';
 import { getDatabase, ref, get, child } from 'firebase/database';
@@ -27,7 +26,7 @@ function Training() {
   const [training, setTraining] = useState('');
   const [time, setTime] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
-  const [selectedTraining, setSelectedTraining] = useState(null);
+  // const [selectedTraining, setSelectedTraining] = useState(null);
 
   function formatTime(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -157,13 +156,13 @@ function Training() {
                     }}
                     onClick={() => [
                       setTraining(key),
-                      setSelectedTraining(null),
+                      // setSelectedTraining(null),
                     ]}
                   >
                     <Button
                       onClick={() => [
                         setTraining(key),
-                        setSelectedTraining(null),
+                        // setSelectedTraining(null),
                       ]}
                     >
                       <Box
