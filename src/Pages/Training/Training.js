@@ -3,6 +3,7 @@ import { AuthContext } from '../../Service/Connection/AuthContext';
 import Nav from '../Nav/Nav';
 import { useTheme } from '@mui/material/styles';
 // import { useTranslation } from 'react-i18next';
+import Customizedtraining from '../../components/training/training';
 import {
   Box,
   Avatar,
@@ -234,7 +235,12 @@ function Training() {
                 (key, index) =>
                   index !== 0 && (
                     <div key={key}>
-                      <Card
+                      <Customizedtraining
+                        keys={key}
+                        training={training}
+                        trainingInfo={trainingInfo}
+                      />
+                      {/* <Card
                         sx={{
                           display: 'flex',
                           justifyContent: 'center',
@@ -298,7 +304,7 @@ function Training() {
                             segundos
                           </Typography>
                         </Box>
-                      </Card>
+                      </Card> */}
                     </div>
                   )
               )}

@@ -1,0 +1,65 @@
+import React, { useState } from 'react';
+
+import { Box, Typography, Card, Checkbox } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import CustomButtonWithLabel from '../button/button';
+
+export default function Customizedtraining({ keys, trainingInfo, training }) {
+  const theme = useTheme();
+  const [selectedTraining, setSelectedTraining] = useState(null);
+  console.log(selectedTraining, keys);
+  return (
+    <Card
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '10px',
+        backgroundColor: theme.palette.secondary.main,
+        borderRadius: '30px',
+        minWidth: '280px',
+      }}
+    >
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <Box
+          sx={{
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <img
+            style={{
+              width: '160px',
+              height: 'auto',
+              borderRadius: '20px',
+              border: '1px solid rgba(128, 128, 128, 0.5)',
+              display: selectedTraining === keys ? 'block' : 'none',
+            }}
+            src={trainingInfo[training][keys]['giff']}
+            alt="GIF"
+          />
+        </Box>
+        {selectedTraining !== keys && (
+          <CustomButtonWithLabel
+            variantCustom={'contained'}
+            onClick={() => setSelectedTraining(keys)}
+            label={'Play'}
+          />
+        )}
+
+        <Box display="flex" flexDirection="row" alignItems="center">
+          <Typography variant="h6" color={theme.palette.text.main}>
+            Treino {keys}
+          </Typography>
+
+          <Checkbox defaultChecked={false} size="small" />
+        </Box>
+        <Typography variant="body1" color="text.secondary">
+          {trainingInfo[training][keys]['tamanho']}
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          Pausa: {trainingInfo[training][keys]['tempo_pausa']} segundos
+        </Typography>
+      </Box>
+    </Card>
+  );
+}
