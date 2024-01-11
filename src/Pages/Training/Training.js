@@ -26,8 +26,6 @@ function Training() {
   const [training, setTraining] = useState('');
   const [time, setTime] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
-  // const [selectedTraining, setSelectedTraining] = useState(null);
-  const [selectedTrainings, setSelectedTrainings] = useState({});
 
   function formatTime(milliseconds) {
     const totalSeconds = Math.floor(milliseconds / 1000);
@@ -112,12 +110,6 @@ function Training() {
     }
   }
 
-  const handleSelectTraining = (key) => {
-    setSelectedTrainings({
-      ...selectedTrainings,
-      [key]: true,
-    });
-  };
   return (
     <Container>
       <Box
@@ -241,17 +233,10 @@ function Training() {
                 (key, index) =>
                   index !== 0 && (
                     <div key={key}>
-                      {/* <Customizedtraining
-                        keys={key}
-                        training={training}
-                        trainingInfo={trainingInfo}
-                      /> */}
                       <Customizedtraining
                         keys={key}
                         training={training}
                         trainingInfo={trainingInfo}
-                        selectedTraining={selectedTrainings[key]}
-                        onSelectTraining={() => handleSelectTraining(key)}
                       />
                     </div>
                   )
