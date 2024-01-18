@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import { Box, Typography, Card, Checkbox } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import CustomButtonWithLabel from '../button/button';
+import { Box, Typography, Card, Checkbox } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
+import { IconButton } from '@mui/material'
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 
 export default function Customizedtraining({ keys, trainingInfo, training }) {
-  const theme = useTheme();
-  const [selectedTraining, setSelectedTraining] = useState(null);
+  const theme = useTheme()
+  const [selectedTraining, setSelectedTraining] = useState(null)
 
   return (
     <Card
@@ -21,23 +23,28 @@ export default function Customizedtraining({ keys, trainingInfo, training }) {
     >
       <Box display="flex" flexDirection="column" alignItems="center">
         {selectedTraining !== keys ? (
-          <CustomButtonWithLabel
-            variantCustom={'contained'}
-            onClick={() => setSelectedTraining(keys)}
-            label={'Play'}
-          />
+          <IconButton onClick={() => setSelectedTraining(keys)}>
+            <PlayCircleOutlineIcon
+              style={{ fontSize: '2rem', color: theme.palette.primary.main }}
+            />
+          </IconButton>
         ) : (
-          <img
-            style={{
-              width: '160px',
-              height: 'auto',
-              borderRadius: '20px',
-              border: '1px solid rgba(128, 128, 128, 0.5)',
-              //   display: selectedTraining === keys ? 'block' : 'none',
-            }}
-            src={trainingInfo[training][keys]['giff']}
-            alt="GIF"
-          />
+          <>
+            <IconButton onClick={() => setSelectedTraining(null)}>
+              <HighlightOffIcon />
+            </IconButton>
+            <img
+              style={{
+                width: '160px',
+                height: 'auto',
+                borderRadius: '20px',
+                border: '1px solid rgba(128, 128, 128, 0.5)',
+                //   display: selectedTraining === keys ? 'block' : 'none',
+              }}
+              src={trainingInfo[training][keys]['giff']}
+              alt="GIF"
+            />
+          </>
         )}
 
         <Box display="flex" flexDirection="row" alignItems="center">
@@ -55,5 +62,5 @@ export default function Customizedtraining({ keys, trainingInfo, training }) {
         </Typography>
       </Box>
     </Card>
-  );
+  )
 }
